@@ -1,2 +1,8 @@
 .env
 backend/src/main/resources/application-prod.properties
+
+backend/.mvn/*
+
+.vscode/
+frontend/.vscode/*
+backend/.mvn/wrapper/maven-wrapper.properties
