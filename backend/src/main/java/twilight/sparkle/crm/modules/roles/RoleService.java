@@ -5,22 +5,22 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RolesService {
-  private final RolesRepository rolesRepository;
+public class RoleService {
+  private final RoleRepository rolesRepository;
 
-  public RolesService(RolesRepository rolesRepository) {
+  public RoleService(RoleRepository rolesRepository) {
     this.rolesRepository = rolesRepository;
   }
 
-  public List<Roles> findAll() {
+  public List<Role> findAll() {
     return rolesRepository.findAll();
   }
 
-  public Roles save(Roles role) {
+  public Role save(Role role) {
     return rolesRepository.save(role);
   }
 
-  public Roles findByRoleName(String roleName) {
+  public Role findByRoleName(String roleName) {
     return rolesRepository.findByName(roleName).orElse(null);
   }
 }

@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "roles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Builder
-public class Roles {
+@Builder  
+public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long roleId;

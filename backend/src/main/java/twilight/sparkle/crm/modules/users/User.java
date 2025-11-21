@@ -2,7 +2,7 @@ package twilight.sparkle.crm.modules.users;
 
 import jakarta.persistence.*;
 import lombok.*;
-import twilight.sparkle.crm.modules.roles.Roles;
+import twilight.sparkle.crm.modules.roles.Role;
 
 @Entity
 @Table(name = "users")
@@ -11,7 +11,7 @@ import twilight.sparkle.crm.modules.roles.Roles;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class Users {
+public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long userId;
@@ -23,7 +23,8 @@ public class Users {
   @NonNull
   private String email;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "roleId")
-  private Roles role;
+  @NonNull
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "role_id")
+  private Role role;
 }

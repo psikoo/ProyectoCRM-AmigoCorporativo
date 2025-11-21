@@ -6,20 +6,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-public class UsersController {
-  private final UsersService userService;
+public class UserController {
+  private final UserService userService;
 
-  public UsersController(UsersService userService) {
+  public UserController(UserService userService) {
     this.userService = userService;
   }
 
   @GetMapping
-  public List<Users> getAll() {
+  public List<User> getAll() {
     return userService.findAll();
   }
 
   @PostMapping
-  public Users create(@RequestBody Users user) {
+  public User create(@RequestBody User user) {
     return userService.save(user);
   }
 }

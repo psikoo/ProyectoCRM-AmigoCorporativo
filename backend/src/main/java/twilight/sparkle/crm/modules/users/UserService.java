@@ -6,26 +6,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UsersService {
-  private final UsersRepository userRepository;
+public class UserService {
+  private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public UsersService(UsersRepository userRepository, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    //save(new Users("a", "womp", "a")); //TODO it errors if no role
   }
 
-  public List<Users> findAll() {
+  public List<User> findAll() {
     return userRepository.findAll();
   }
 
-  public Users save(Users user) {
+  public User save(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
-  public Users findByUsername(String username) {
+  public User findByUsername(String username) {
     return userRepository.findByUsername(username).orElse(null);
   }
 }
