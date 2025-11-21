@@ -1,9 +1,8 @@
-package twilight.sparkle.crm.entity;
-
-import org.aspectj.lang.annotation.RequiredTypes;
+package twilight.sparkle.crm.modules.users;
 
 import jakarta.persistence.*;
 import lombok.*;
+import twilight.sparkle.crm.modules.roles.Roles;
 
 @Entity
 @Table(name = "users")
@@ -12,10 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class User {
+public class Users {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long userId;
 
   @NonNull
   private String username;
@@ -23,6 +22,8 @@ public class User {
   private String password;
   @NonNull
   private String email;
-  @NonNull
-  private String role;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "roleId")
+  private Roles role;
 }
