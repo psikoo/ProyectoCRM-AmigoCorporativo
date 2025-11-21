@@ -27,11 +27,11 @@ public class AuthController {
 
   @PostMapping("/login")
   public Map<String, String> login(@RequestBody Map<String, String> loginRequest) {
-    String username = loginRequest.get("username");
+    String name = loginRequest.get("name");
     String password = loginRequest.get("password");
-    User user = userService.findByUsername(username);
+    User user = userService.findByName(name);
     if(user != null && passwordEncoder.matches(password, user.getPassword())) {
-      String token = jwtService.generateToken(username);
+      String token = jwtService.generateToken(name);
       return Map.of("token", token);
     } else {
       throw new RuntimeException("Invalid credentials");
@@ -40,24 +40,24 @@ public class AuthController {
 
   @PostMapping("/register")
   public Map<String, String> register(@RequestBody Map<String, String> registerRequest) {
-    String username = registerRequest.get("username");
+    String name = registerRequest.get("name");
     String password = registerRequest.get("password");
     String email = registerRequest.get("email");
     String role = registerRequest.get("role");
 
-    User userE = userService.findByUsername(username);
+    User userE = userService.findByName(name);
     Role roleE = roleService.findByRoleName(role);
     if(userE != null && passwordEncoder.matches(password, userE.getPassword())) {
-      String token = jwtService.generateToken(username);
+      String token = jwtService.generateToken(name);
       return Map.of("token", token);
     } else {
       if(roleE == null) {
         roleService.save(new Role(role));
         roleE = roleService.findByRoleName(role);
       }
-      userE = new User(username, password, email, roleE);
+      userE = new User(name, password, email, roleE);
       userService.save(userE);
-      String token = jwtService.generateToken(username);
+      String token = jwtService.generateToken(name);
       return Map.of("token", token);
     }
   }

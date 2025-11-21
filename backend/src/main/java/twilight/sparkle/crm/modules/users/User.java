@@ -17,7 +17,7 @@ public class User {
   private Long userId;
 
   @NonNull
-  private String username;
+  private String name;
   @NonNull
   private String password;
   @NonNull
