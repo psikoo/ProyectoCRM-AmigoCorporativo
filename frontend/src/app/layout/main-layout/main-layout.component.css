@@ -1,0 +1,26 @@
+.app-container {
+  display: flex;       /* Esto pone al Sidebar y al Main Content en la misma línea */
+  height: 100vh;       /* Ocupar el 100% de la altura de la pantalla */
+  width: 100%;
+  background-color: #f5f7fb; /* Un color gris claro de fondo, típico de CRMs */
+}
+
+.sidebar {
+  width: 250px;        /* Ancho fijo para el menú lateral */
+  flex-shrink: 0;      /* Que no se encoja si falta espacio */
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.main-content {
+  flex-grow: 1;        /* Que ocupe todo el espacio restante a la derecha */
+  display: flex;
+  flex-direction: column; /* Header arriba, contenido abajo */
+  overflow: hidden;    /* Evita scroll doble */
+}
+
+.page-content {
+  padding: 20px;       /* Un poco de aire alrededor del contenido */
+  overflow-y: auto;    /* Si el contenido es largo, que haga scroll solo aquí */
+  height: 100%;
+}
