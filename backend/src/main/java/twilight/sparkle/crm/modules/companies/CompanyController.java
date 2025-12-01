@@ -34,6 +34,6 @@ public class CompanyController {
     String user = postRequest.get("user");
     User userE = userService.findByName(user);
     if(userE != null) return companyService.save(new Company(name, industry, website, phone, address, userE));
-    else throw new RuntimeException(user+" > User does not exit!");
+    else throw new RuntimeException(user+" > User does not exit!\n"+postRequest);
   }
 }
