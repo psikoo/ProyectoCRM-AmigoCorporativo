@@ -1,7 +1,5 @@
-package twilight.sparkle.crm.controller;
+package twilight.sparkle.crm.modules.users;
 
-import twilight.sparkle.crm.entity.User;
-import twilight.sparkle.crm.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

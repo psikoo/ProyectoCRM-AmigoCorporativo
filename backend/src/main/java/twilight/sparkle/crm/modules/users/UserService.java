@@ -1,7 +1,5 @@
-package twilight.sparkle.crm.service;
+package twilight.sparkle.crm.modules.users;
 
-import twilight.sparkle.crm.entity.User;
-import twilight.sparkle.crm.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ public class UserService {
   public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
-    save(new User("alice","password1","email","role"));
   }
 
   public List<User> findAll() {
@@ -27,7 +24,7 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  public User findByUsername(String username) {
-    return userRepository.findByUsername(username).orElse(null);
+  public User findByName(String name) {
+    return userRepository.findByName(name).orElse(null);
   }
 }

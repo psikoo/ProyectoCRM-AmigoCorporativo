@@ -2,6 +2,7 @@ package twilight.sparkle.crm.config;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -10,6 +11,8 @@ import java.util.Date;
 @Service
 public class JwtService {
   private static final String SECRET_KEY = "replace_this_with_a_very_long_secret_key_123456789012345678901234567890";
+
+  // TODO change this
 
   private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
