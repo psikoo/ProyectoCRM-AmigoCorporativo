@@ -1,0 +1,110 @@
+<div class="p-6 page-content">
+
+  <div class="flex items-start gap-4 mb-6">
+    <div class="flex-1">
+      <h2 class="text-3xl font-extrabold text-slate-900">Gestión de Oportunidades</h2>
+      <div class="text-sm text-slate-500 mt-1">Administra tu pipeline de ventas</div>
+    </div>
+    <div class="flex gap-3 items-center">
+      <button class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">+ Nueva Oportunidad</button>
+    </div>
+  </div>
+
+  <!-- top cards -->
+  <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="card p-4 flex justify-between items-center border border-slate-100 shadow-sm">
+      <div>
+        <div class="text-sm text-slate-500">Valor Total Pipeline</div>
+        <div class="text-xl font-bold mt-2">€178.000</div>
+      </div>
+      <div class="text-2xl text-green-600">$</div>
+    </div>
+
+    <div class="card p-4 flex justify-between items-center border border-slate-100 shadow-sm">
+      <div>
+        <div class="text-sm text-slate-500">Valor Ponderado</div>
+        <div class="text-xl font-bold mt-2">€110.650</div>
+      </div>
+      <div class="text-2xl text-sky-500">↗</div>
+    </div>
+
+    <div class="card p-4 flex justify-between items-center border border-slate-100 shadow-sm">
+      <div>
+        <div class="text-sm text-slate-500">Oportunidades Activas</div>
+        <div class="text-xl font-bold mt-2">5</div>
+      </div>
+      <div class="text-2xl text-purple-600">▦</div>
+    </div>
+  </div>
+
+  <!-- search & filter -->
+  <div class="card p-4 mb-6 border border-slate-100 shadow-sm">
+    <div class="flex gap-4 items-center">
+      <div class="flex-1 relative">
+        <svg class="absolute left-3 top-3 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+        <input [(ngModel)]="query" placeholder="Buscar oportunidades por título, cliente o empresa..." class="w-full pl-10 p-3 rounded-md border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-300" />
+        <button *ngIf="query" (click)="clearQuery()" title="Limpiar" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 px-2">✕</button>
+      </div>
+      <button class="px-4 py-2 rounded-md border border-slate-200 text-slate-700">Filtros</button>
+    </div>
+  </div>
+
+  <!-- pipeline table -->
+  <div class="card p-6">
+    <div class="mb-4">
+      <h3 class="text-xl font-semibold">Pipeline de Oportunidades ({{ filteredItems.length }})</h3>
+      <div class="text-sm text-slate-500">Gestiona y da seguimiento a todas tus oportunidades de venta</div>
+      <div *ngIf="filteredItems.length !== items.length" class="text-xs text-slate-400 mt-1">Mostrando {{ filteredItems.length }} de {{ items.length }}</div>
+    </div>
+
+    <div class="w-full overflow-x-auto">
+      <table class="w-full min-w-[900px] text-left">
+        <thead class="text-sm text-slate-400 border-b border-slate-100 bg-slate-50">
+          <tr>
+            <th class="py-3">Oportunidad</th>
+            <th class="py-3">Cliente</th>
+            <th class="py-3">Valor</th>
+            <th class="py-3">Etapa</th>
+            <th class="py-3">Probabilidad</th>
+            <th class="py-3">Fecha Cierre</th>
+            <th class="py-3">Asignado</th>
+            <th class="py-3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-sm text-slate-700">
+          <tr *ngFor="let row of filteredItems" class="border-b last:border-b-0 hover:bg-slate-50">
+            <td class="py-4 align-top">
+              <div class="font-semibold">{{ row.title }}</div>
+              <div class="text-xs text-slate-400 mt-1">{{ row.description }}</div>
+            </td>
+            <td class="py-4 align-top">
+              <div class="font-medium">{{ row.clientName }}</div>
+              <div class="text-xs text-slate-400">{{ row.clientCompany }}</div>
+            </td>
+            <td class="py-4 align-top text-green-600 font-semibold">{{ row.value }}</td>
+            <td class="py-4 align-top">
+              <span [ngClass]="{
+                'px-3 py-1 rounded-full text-xs bg-amber-100 text-amber-700': row.stage === 'Propuesta',
+                'px-3 py-1 rounded-full text-xs bg-orange-100 text-orange-700': row.stage === 'Negociación',
+                'px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-700': row.stage === 'Calificado'
+              }">{{ row.stage }}</span>
+            </td>
+            <td class="py-4 align-top" [ngClass]="{'text-green-600': probabilityValue(row.probability) >= 70, 'text-amber-600': probabilityValue(row.probability) >=40 && probabilityValue(row.probability) <70, 'text-slate-500': probabilityValue(row.probability) < 40}">{{ row.probability }}</td>
+            <td class="py-4 align-top text-slate-500 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>{{ row.closeDate }}</td>
+            <td class="py-4 align-top">{{ row.assigned }}</td>
+            <td class="py-4 align-top">
+              <div class="flex gap-2 items-center">
+                <button title="Editar" class="p-2 rounded-md hover:bg-slate-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h6m2 0a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h2"/></svg></button>
+                <button title="Eliminar" class="p-2 rounded-md hover:bg-slate-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-.894.553L3 6h14l-2.106-3.447A1 1 0 0014 2H6zm3 8a1 1 0 112 0v5a1 1 0 11-2 0V10z" clip-rule="evenodd" /></svg></button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredItems.length === 0">
+            <td colspan="8" class="py-8 text-center text-slate-400">No se encontraron oportunidades para "{{ query }}".</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
