@@ -16,4 +16,6 @@ public class Role {
   private Long roleId;
   @NonNull
   private String name;
+
+  public Role setName(String value) { this.name = value; return this; };
 }

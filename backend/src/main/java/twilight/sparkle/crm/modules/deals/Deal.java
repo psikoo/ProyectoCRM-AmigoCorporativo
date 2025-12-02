@@ -6,7 +6,7 @@ import twilight.sparkle.crm.modules.companies.Company;
 import twilight.sparkle.crm.modules.users.User;
 
 @Entity
-@Table(name = "contacts")
+@Table(name = "deals")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,9 +30,16 @@ public class Deal {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User user;
-  
+
   @NonNull
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "company_id")
   private Company company;
+
+  public Deal setStage(String value) { this.stage = value; return this; };
+  public Deal setAmount(Integer value) { this.amount = value; return this; };
+  public Deal setChance(Integer value) { this.chance = value; return this; };
+  public Deal setCloseDate(String value) { this.closeDate = value; return this; };
+  public Deal setUser(User value) { this.user = value; return this; };
+  public Deal setCompany(Company value) { this.company = value; return this; };
 }

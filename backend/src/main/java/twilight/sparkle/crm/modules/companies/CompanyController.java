@@ -24,8 +24,14 @@ public class CompanyController {
     return companyService.findAll();
   }
 
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
+    companyService.delete(id);
+  }
+
   @PostMapping
   public Company create(@RequestBody Map<String, String> postRequest) {
+    String id = postRequest.get("id");
     String name = postRequest.get("name");
     String industry = postRequest.get("industry");
     String website = postRequest.get("website");
@@ -33,7 +39,17 @@ public class CompanyController {
     String address = postRequest.get("address");
     String user = postRequest.get("user");
     User userE = userService.findByName(user);
-    if(userE != null) return companyService.save(new Company(name, industry, website, phone, address, userE));
-    else throw new RuntimeException(user+" > User does not exit!\n"+postRequest);
+    
+    if(userE == null) throw new RuntimeException(user+" > User does not exit!\n"+postRequest);
+    if(id == null) return companyService.save(new Company(name, industry, website, phone, address, userE));
+    return companyService.save(
+      companyService.findById(Long.parseLong(id))
+        .setName(name)
+        .setIndustry(industry)
+        .setWebsite(website)
+        .setPhone(phone)
+        .setAddress(address)
+        .setUser(userE)
+    ); 
   }
 }

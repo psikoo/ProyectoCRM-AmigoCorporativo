@@ -23,6 +23,13 @@ public class ContactService {
     return contactRepository.save(contact);
   }
 
+  public void delete(Long id) {
+    contactRepository.deleteById(id);
+  }
+
+  public Contact findById(Long id) {
+    return contactRepository.findById(id).orElse(null);
+  }
   public Contact findByName(String name) {
     return contactRepository.findByName(name).orElse(null);
   }

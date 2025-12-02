@@ -28,8 +28,14 @@ public class DealController {
     return dealService.findAll();
   }
 
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable Long id) {
+    dealService.delete(id);
+  }
+
   @PostMapping
   public Deal create(@RequestBody Map<String, String> postRequest) {
+    String id = postRequest.get("id");
     String stage = postRequest.get("stage");
     Integer amount = Integer.parseInt(postRequest.get("amount"));
     Integer chance = Integer.parseInt(postRequest.get("chance"));
@@ -38,8 +44,17 @@ public class DealController {
     String company = postRequest.get("company");
     User userE = userService.findByName(user);
     Company companyE = companyService.findByName(company);
-    if(userE == null) throw new RuntimeException(company+" > Company does not exit!\n"+postRequest);
+    if(userE == null) throw new RuntimeException(company+" > User does not exit!\n"+postRequest);
     if(companyE == null) throw new RuntimeException(company+" > Company does not exit!\n"+postRequest);
-    return dealService.save(new Deal(stage, amount, chance, closeDate, userE, companyE));
+    if(id == null) return dealService.save(new Deal(stage, amount, chance, closeDate, userE, companyE));
+    return dealService.save(
+      dealService.findById(Long.parseLong(id))
+        .setStage(stage)
+        .setAmount(amount)
+        .setChance(chance)
+        .setCloseDate(closeDate)
+        .setUser(userE)
+        .setCompany(companyE)
+    ); 
   }
 }

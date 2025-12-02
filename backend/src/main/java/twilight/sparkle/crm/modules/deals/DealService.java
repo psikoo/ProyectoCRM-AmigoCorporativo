@@ -23,7 +23,11 @@ public class DealService {
     return dealRepository.save(deal);
   }
 
-  // public Deal findByName(Integer id) {
-  //   return dealRepository.findById(id).orElse(null);
-  // }
+  public void delete(Long id) {
+    dealRepository.deleteById(id);
+  }
+
+  public Deal findById(Long id) {
+    return dealRepository.findById(id).orElse(null);
+  }
 }
