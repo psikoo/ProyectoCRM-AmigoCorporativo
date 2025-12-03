@@ -28,12 +28,12 @@ export class RegisterComponent {
       "email": this.email,
       "role": this.role
     };
-    this.http.post("http://localhost:8080/api/auth/register", reqBody, { headers: reqHeaders})
+    this.http.post("http://localhost:8080/api/auth/register", reqBody, { headers: reqHeaders })
       .subscribe((data:any) => {
         document.cookie = "token=Bearer "+data.token+"; path=/; max-age=3600; secure; samesite=lax";
         document.cookie = "nombre="+this.nombre+"; path=/; max-age=3600; secure; samesite=lax";
+        if(this.getCookie("token") != null) this.router.navigate(['/app']);
       });
-    if(this.getCookie("token") != null) this.router.navigate(['/app']);
   }
 
   getCookie(name: string) {

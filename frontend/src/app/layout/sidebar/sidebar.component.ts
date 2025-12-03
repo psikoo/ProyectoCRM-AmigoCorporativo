@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,19 +12,25 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SidebarComponent {
   name = 'Loading';
-  initial = 'A';
+  role = 'Loading';
+  initial = 'L';
   currentDate: any;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    let reqHeaders = {
-      "Authorization": this.getCookie("token"),
-      "Content-Type": "application/json"
-    }
-    this.http.get("http://localhost:8080/api/users", { headers: reqHeaders})
+    
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "GET"
+    });
+      
+    this.http.get("http://localhost:8080/api/users/"+this.getCookie("nombre"), { headers: reqHeaders, credentials: 'include' })
       .subscribe((data:any) => {
-        this.name = "B"
+        this.name = data.name
+        this.role = data.role.name
+        this.initial = this.name.charAt(0).toUpperCase()
       });
     }
 
@@ -32,7 +38,7 @@ export class SidebarComponent {
     const cookies = document.cookie.split('; ');
     for (let cookie of cookies) {
       const [key, value] = cookie.split('=');
-      if (key === name) { return decodeURIComponent(value); }
+      if (key === name) { return value; }
     }
     return "null";
   }
