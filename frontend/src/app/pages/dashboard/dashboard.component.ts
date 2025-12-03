@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent {
   stats = [
-    { title: 'Clientes Totales', value: '2,847', change: '+12.5%', positive: true, icon: 'users', color: 'blue' },
-    { title: 'Ventas del Mes', value: '$124,500', change: '+8.2%', positive: true, icon: 'dollar', color: 'green' },
-    { title: 'Oportunidades', value: '156', change: '+23.1%', positive: true, icon: 'target', color: 'purple' },
-    { title: 'Tasa de Conversión', value: '24.8%', change: '+3.2%', positive: true, icon: 'chart', color: 'orange' },
+    { title: 'Clientes Totales', value: '2,847', positive: true, icon: 'users', color: 'blue' },
+    { title: 'Empresas Totales', value: '100', icon: 'chart', color: 'orange' },
+    { title: 'Ventas Totales', value: '$124,500', icon: 'dollar', color: 'green' },
+    { title: 'Tareas Totales', value: '156', icon: 'target', color: 'purple' },
   ];
 
   recentClients = [

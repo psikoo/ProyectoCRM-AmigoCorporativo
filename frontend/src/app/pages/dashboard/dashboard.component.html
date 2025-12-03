@@ -15,7 +15,6 @@
             <div>
                 <p class="text-sm font-medium text-gray-500">{{ stat.title }}</p>
                 <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ stat.value }}</h3>
-                <p class="text-xs font-medium mt-1 text-green-600">{{ stat.change }}</p>
             </div>
             <div [ngClass]="{'bg-blue-100 text-blue-600': stat.color=='blue', 'bg-green-100 text-green-600': stat.color=='green', 'bg-purple-100 text-purple-600': stat.color=='purple', 'bg-orange-100 text-orange-600': stat.color=='orange'}" class="p-3 rounded-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
