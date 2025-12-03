@@ -1,0 +1,7 @@
+/* Page-specific styles for Tasks */
+:host{display:block}
+.page-content{padding-left:28px;padding-right:28px}
+.card{border-radius:12px}
+table thead th{font-weight:600;padding-bottom:12px;color:rgba(31,41,55,0.6);font-size:13px}
+table tbody td{vertical-align:top}
+.priority-pill{padding:4px 8px;border-radius:999px;font-weight:600}

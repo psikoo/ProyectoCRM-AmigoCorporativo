@@ -1,0 +1,116 @@
+<div class="p-6 page-content">
+
+  <div class="flex items-start gap-4 mb-6">
+    <div class="flex-1">
+      <h2 class="text-3xl font-extrabold text-slate-900">Reportes y Análisis</h2>
+      <div class="text-sm text-slate-500 mt-1">Métricas y estadísticas de rendimiento</div>
+    </div>
+    <div class="flex gap-3 items-center">
+      <button class="rounded-md px-3 py-2 border border-slate-200">Filtros</button>
+      <button class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">Exportar</button>
+    </div>
+  </div>
+
+  <!-- metric cards -->
+  <div class="grid grid-cols-4 gap-4 mb-6">
+    <div *ngFor="let m of metrics" class="card p-4 border border-slate-100 shadow-sm flex items-center justify-between">
+      <div>
+        <div class="text-sm text-slate-500">{{ m.title }}</div>
+        <div class="text-xl font-bold mt-2">{{ m.value }}</div>
+        <div class="text-xs text-slate-400 mt-1">{{ m.change }}</div>
+      </div>
+      <div class="rounded-full bg-white p-3 border border-slate-100 shadow flex items-center justify-center">📈</div>
+    </div>
+  </div>
+
+  <!-- charts area -->
+  <div class="grid grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <h3 class="font-semibold text-lg mb-2">Evolución de Ventas</h3>
+      <div class="text-sm text-slate-400 mb-4">Ingresos mensuales y número de oportunidades</div>
+
+      <!-- simple bar chart placeholder using divs -->
+      <div class="w-full h-56 flex items-end gap-2">
+        <div *ngFor="let v of salesSeries" class="flex-1 h-full flex items-end justify-center">
+          <div class="bg-indigo-200" [ngStyle]="{'height': (v/90000*100) + '%', 'width': '70%'}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <h3 class="font-semibold text-lg mb-2">Distribución del Pipeline</h3>
+      <div class="text-sm text-slate-400 mb-4">Oportunidades por etapa del proceso de venta</div>
+      <!-- simple pie placeholder -->
+      <div class="w-full h-56 flex items-center justify-center">
+        <svg width="200" height="200" viewBox="0 0 32 32">
+          <circle r="16" cx="16" cy="16" fill="#6c63ff" stroke="#fff" stroke-width="0.5"/>
+          <path d="M16 0 A 16 16 0 0 1 30.2 6 L16 16 Z" fill="#7bd389"></path>
+          <path d="M30.2 6 A 16 16 0 0 1 23 28 L16 16 Z" fill="#ffd27a"></path>
+          <path d="M23 28 A 16 16 0 0 1 13 31 L16 16 Z" fill="#ff8b4c"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- growth chart -->
+  <div class="grid grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <h3 class="font-semibold text-lg mb-2">Crecimiento de Clientes</h3>
+      <div class="text-sm text-slate-400 mb-4">Evolución de nuevos clientes y base activa</div>
+      <div class="w-full h-56 bg-gradient-to-r from-white to-white border border-slate-100 rounded-md flex items-center justify-center text-slate-400">[Gráfica de líneas — placeholder]</div>
+    </div>
+
+    <div class="card p-6">
+      <h3 class="font-semibold text-lg mb-2">Métricas de Rendimiento</h3>
+      <div class="text-sm text-slate-400 mb-4">Indicadores clave del equipo de ventas</div>
+
+      <div class="space-y-4">
+        <div class="bg-slate-100 rounded-full h-4 overflow-hidden relative"><div style="width:87%" class="bg-slate-800 h-4"></div></div>
+        <div class="bg-slate-100 rounded-full h-4 overflow-hidden relative"><div style="width:92%" class="bg-slate-800 h-4"></div></div>
+        <div class="bg-slate-100 rounded-full h-4 overflow-hidden relative"><div style="width:78%" class="bg-slate-800 h-4"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- sellers list -->
+  <div class="grid grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <h4 class="text-lg font-semibold mb-3">Mejores Vendedores</h4>
+      <div class="space-y-3">
+        <div *ngFor="let s of sellers; let i = index" class="p-3 border border-slate-100 rounded-md flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-400 to-sky-500 flex items-center justify-center text-white font-semibold">{{i+1}}</div>
+            <div>
+              <div class="font-semibold">{{ s.name }}</div>
+              <div class="text-xs text-slate-400">{{ s.opportunities }} oportunidades</div>
+            </div>
+          </div>
+          <div class="text-green-600 font-semibold">{{ s.value }}<div class="text-xs text-slate-400">{{ s.conversion }} conversión</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6">
+      <h4 class="text-lg font-semibold mb-3">Resumen Ejecutivo</h4>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="p-4 bg-white border border-slate-100 rounded-md text-center">
+          <div class="text-2xl font-extrabold text-indigo-600">2,847</div>
+          <div class="text-sm text-slate-400 mt-1">Total Clientes</div>
+        </div>
+        <div class="p-4 bg-white border border-slate-100 rounded-md text-center">
+          <div class="text-2xl font-extrabold text-green-600">€742K</div>
+          <div class="text-sm text-slate-400 mt-1">Ingresos Anuales</div>
+        </div>
+        <div class="p-4 bg-white border border-slate-100 rounded-md text-center">
+          <div class="text-2xl font-extrabold text-indigo-600">156</div>
+          <div class="text-sm text-slate-400 mt-1">Oportunidades Activas</div>
+        </div>
+        <div class="p-4 bg-white border border-slate-100 rounded-md text-center">
+          <div class="text-2xl font-extrabold text-orange-600">24.8%</div>
+          <div class="text-sm text-slate-400 mt-1">Tasa de Conversión</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
