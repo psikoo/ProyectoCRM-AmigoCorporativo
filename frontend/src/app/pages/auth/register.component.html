@@ -1,0 +1,32 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="w-full max-w-md bg-white p-8 rounded-lg shadow">
+    <h2 class="text-2xl font-semibold mb-6">Crear cuenta</h2>
+
+    <form class="space-y-4" (ngSubmit)="register()">
+      <div>
+        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+        <input id="nombre" name="nombre" type="text" [(ngModel)]="nombre" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+      </div>
+
+        <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+        <input id="password" name="password" type="password" [(ngModel)]="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+      </div>
+
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Correo</label>
+        <input id="email" name="email" type="email" [(ngModel)]="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+      </div>
+
+      <div>
+        <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
+        <input id="role" name="role" type="nombre" [(ngModel)]="nombre" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+      </div>
+
+      <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700">Crear cuenta</button>
+    </form>
+
+    <p class="mt-4 text-sm text-gray-600">¿Ya tienes cuenta? <button class="text-indigo-600 hover:underline" (click)="goLogin()">Inicia sesión</button></p>
+  </div>
+</div>
