@@ -17,7 +17,7 @@ export interface Seller {
 })
 export class ReportsComponent {
   protected metrics = [
-    { title: 'Ingresos Totales', value: '€742,000', change: '+15.3%', color: 'green' },
+    { title: 'Ingresos Totales', value: '5', change: '+15.3%', color: 'green' },
     { title: 'Nuevos Clientes', value: '156', change: '+23.1%', color: 'blue' },
     { title: 'Tasa de Conversión', value: '24.8%', change: '+3.2%', color: 'purple' },
     { title: 'Tiempo Promedio de Cierre', value: '45 días', change: '-8.5%', color: 'orange' }
