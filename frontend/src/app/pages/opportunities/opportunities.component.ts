@@ -25,6 +25,20 @@ export interface Opportunity {
 export class OpportunitiesComponent {
   protected query = '';
   protected hasData = true; // show example items for the UI preview
+  protected showModal = false;
+  protected nextId = 4;
+
+  protected nuevaOportunidad = {
+    title: '',
+    description: '',
+    clientName: '',
+    clientCompany: '',
+    value: '',
+    stage: 'Calificado',
+    probability: '50%',
+    closeDate: '',
+    assigned: ''
+  };
 
   protected items: Opportunity[] = [
     {
@@ -88,5 +102,49 @@ export class OpportunitiesComponent {
     // strip non-digits and parse number
     const n = parseInt((p || '').replace(/[^0-9]/g, ''), 10);
     return Number.isNaN(n) ? 0 : n;
+  }
+
+  protected openModal() {
+    this.showModal = true;
+  }
+
+  protected closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  protected resetForm() {
+    this.nuevaOportunidad = {
+      title: '',
+      description: '',
+      clientName: '',
+      clientCompany: '',
+      value: '',
+      stage: 'Calificado',
+      probability: '50%',
+      closeDate: '',
+      assigned: ''
+    };
+  }
+
+  protected agregarOportunidad() {
+    if (this.nuevaOportunidad.title && this.nuevaOportunidad.clientName && 
+        this.nuevaOportunidad.clientCompany && this.nuevaOportunidad.value && 
+        this.nuevaOportunidad.closeDate && this.nuevaOportunidad.assigned) {
+      const newOpp: Opportunity = {
+        id: this.nextId++,
+        title: this.nuevaOportunidad.title,
+        description: this.nuevaOportunidad.description,
+        clientName: this.nuevaOportunidad.clientName,
+        clientCompany: this.nuevaOportunidad.clientCompany,
+        value: this.nuevaOportunidad.value,
+        stage: this.nuevaOportunidad.stage,
+        probability: this.nuevaOportunidad.probability,
+        closeDate: this.nuevaOportunidad.closeDate,
+        assigned: this.nuevaOportunidad.assigned
+      };
+      this.items.push(newOpp);
+      this.closeModal();
+    }
   }
 }
