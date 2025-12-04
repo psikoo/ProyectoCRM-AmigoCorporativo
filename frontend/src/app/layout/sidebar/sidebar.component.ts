@@ -19,7 +19,6 @@ export class SidebarComponent {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    
     const reqHeaders = new HttpHeaders({
       'Authorization': this.getCookie("token"),
       "Content-Type": "application/json",
@@ -32,7 +31,7 @@ export class SidebarComponent {
         this.role = data.role.name
         this.initial = this.name.charAt(0).toUpperCase()
       });
-    }
+  }
 
   getCookie(name: string) {
     const cookies = document.cookie.split('; ');

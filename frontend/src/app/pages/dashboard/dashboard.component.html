@@ -4,19 +4,46 @@
             <h2 class="text-2xl font-bold text-gray-900">Dashboard</h2>
             <p class="text-sm text-gray-500 mt-1">Resumen de tu actividad comercial</p>
         </div>
-        <button class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">
-            
-            + Nuevo Cliente
+
+        <button class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">            
+            + Nueva Empresa
         </button>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div *ngFor="let stat of stats" class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
+        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">{{ stat.title }}</p>
-                <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ stat.value }}</h3>
+                <p class="text-sm font-medium text-gray-500">Clientes Totales</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ clientes }}</h3>
             </div>
-            <div [ngClass]="{'bg-blue-100 text-blue-600': stat.color=='blue', 'bg-green-100 text-green-600': stat.color=='green', 'bg-purple-100 text-purple-600': stat.color=='purple', 'bg-orange-100 text-orange-600': stat.color=='orange'}" class="p-3 rounded-lg">
+            <div class="bg-blue-100 text-blue-600" class="p-3 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Empresas Totales</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ empresas }}</h3>
+            </div>
+            <div class="bg-blue-100 text-blue-600" class="p-3 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Ventas Totales</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ ventas }}</h3>
+            </div>
+            <div class="bg-blue-100 text-blue-600" class="p-3 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-500">Tareas Totales</p>
+                <h3 class="text-2xl font-bold text-gray-900 mt-2">{{ tareas }}</h3>
+            </div>
+            <div class="bg-blue-100 text-blue-600" class="p-3 rounded-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
             </div>
         </div>
@@ -26,24 +53,19 @@
         <div class="lg:col-span-2 bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-900">Clientes Recientes</h3>
-                <button class="text-sm text-gray-500 hover:text-gray-700">Ver todos</button>
             </div>
             <div class="divide-y divide-gray-100">
-                <div *ngFor="let client of recentClients" class="p-4 flex items-center justify-between hover:bg-gray-50 transition">
+                <div *ngFor="let client of clientesJson" class="p-4 flex items-center justify-between hover:bg-gray-50 transition">
                     <div class="flex items-center space-x-4">
-                        <div [class]="client.color + ' h-10 w-10 rounded-full flex items-center justify-center text-white font-medium'">{{ client.initial }}</div>
+                        <div class="h-10 w-10 rounded-full flex items-center justify-center font-medium bg-blue-200">{{ client.name.charAt(0).toUpperCase() }}</div>
                         <div>
                             <p class="text-sm font-semibold text-gray-900">{{ client.name }}</p>
-                            <p class="text-xs text-gray-500">{{ client.company }}</p>
+                            <p class="text-xs text-gray-500">{{ client.company.name }}</p>
                         </div>
                     </div>
-                    <div class="hidden md:block text-xs text-gray-500">
+                    <div class="hidden md:block text-xs text-gray-500 mr-4">
                         <p>{{ client.email }}</p>
                         <p class="mt-0.5">{{ client.phone }}</p>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <span [class]="'px-2 py-1 text-xs rounded-full font-medium ' + getStatusColor(client.status)">{{ client.status }}</span>
-                        <span class="text-xs text-gray-400">{{ client.date }}</span>
                     </div>
                 </div>
             </div>
@@ -52,28 +74,24 @@
         <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
             <div class="p-6 border-b border-gray-100">
                 <h3 class="text-lg font-bold text-gray-900">Tareas Pendientes</h3>
-                <p class="text-xs text-gray-500 mt-1">Actividades programadas para hoy</p>
+                <p class="text-xs text-gray-500 mt-1">Actividades programadas</p>
             </div>
             <div class="p-6 space-y-6">
-                <div *ngFor="let task of tasks" class="flex items-start space-x-4">
+                <div *ngFor="let task of tareasJson" class="flex items-start space-x-4">
                     <div class="flex-shrink-0 h-8 w-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between">
-                            <p class="text-sm font-medium text-gray-900 truncate">{{ task.title }}</p>
-                            <span [class]="'text-xs font-medium ' + getPriorityColor(task.priority)">{{ task.priority }}</span>
+                            <p class="text-sm font-medium text-gray-900 truncate">{{ task.name }}</p>
+                            <span [class]="'text-xs font-medium ' + getPriorityColor(task.priority)">{{ task.dueDate }}</span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-0.5">{{ task.company }}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">{{ task.company.name }}</p>
                         <p class="text-xs text-gray-400 mt-1 flex items-center">
-                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"></path></svg>
-                            {{ task.time }}
+                            {{ task.description }}
                         </p>
                     </div>
                 </div>
-            </div>
-            <div class="p-4 border-t border-gray-100 text-center">
-                <button class="text-sm text-blue-600 font-medium hover:text-blue-800">Ver todas las tareas</button>
             </div>
         </div>
     </div>
