@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 interface Cliente {
   initial: string;
@@ -17,9 +19,20 @@ interface Cliente {
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css']
+  styleUrls: ['./clientes.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
 export class ClientesComponent {
+  showModal = false;
+  nuevoCliente = {
+    nombre: '',
+    apellido: '',
+    email: '',
+    telefono: '',
+    empresa: ''
+  };
+
   clientes: Cliente[] = [
     {
       initial: 'M', nombre: 'María González', empresa: 'Tech Solutions S.A.', email: 'maria@techsolutions.com', telefono: '+34 612 345 678', direccion: 'Calle Mayor 123, Madrid', industria: 'Tecnología', facturacion: '€250,000', estado: 'Activo', ultimoContacto: '20/11/2024', color: 'bg-purple-600'
@@ -44,6 +57,46 @@ export class ClientesComponent {
       case 'Pendiente': return 'bg-yellow-100 text-yellow-600';
       case 'Inactivo': return 'bg-red-100 text-red-600';
       default: return 'bg-gray-100 text-gray-600';
+    }
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.nuevoCliente = {
+      nombre: '',
+      apellido: '',
+      email: '',
+      telefono: '',
+      empresa: ''
+    };
+  }
+
+  agregarCliente() {
+    if (this.nuevoCliente.nombre && this.nuevoCliente.apellido && this.nuevoCliente.email && this.nuevoCliente.telefono && this.nuevoCliente.empresa) {
+      const initial = this.nuevoCliente.nombre.charAt(0).toUpperCase();
+      const nuevoClienteObj: Cliente = {
+        initial,
+        nombre: `${this.nuevoCliente.nombre} ${this.nuevoCliente.apellido}`,
+        empresa: this.nuevoCliente.empresa,
+        email: this.nuevoCliente.email,
+        telefono: this.nuevoCliente.telefono,
+        direccion: '',
+        industria: 'Por definir',
+        facturacion: '$0',
+        estado: 'Pendiente',
+        ultimoContacto: new Date().toLocaleDateString('es-ES'),
+        color: 'bg-blue-600'
+      };
+      this.clientes.push(nuevoClienteObj);
+      this.closeModal();
     }
   }
 }
