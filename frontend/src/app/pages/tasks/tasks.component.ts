@@ -19,8 +19,7 @@ export interface TaskItem {
   selector: 'app-tasks',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.css'
+  templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
   protected query = '';

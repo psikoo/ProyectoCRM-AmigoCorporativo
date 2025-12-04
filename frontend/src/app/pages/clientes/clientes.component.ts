@@ -20,7 +20,6 @@ interface Cliente {
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css'],
   standalone: true,
   imports: [CommonModule, FormsModule]
 })

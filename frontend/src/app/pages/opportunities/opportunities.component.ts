@@ -19,8 +19,7 @@ export interface Opportunity {
   selector: 'app-opportunities',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './opportunities.component.html',
-  styleUrl: './opportunities.component.css'
+  templateUrl: './opportunities.component.html'
 })
 export class OpportunitiesComponent {
   protected query = '';

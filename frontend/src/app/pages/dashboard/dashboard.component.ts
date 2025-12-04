@@ -6,8 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
   clientes = 0;
