@@ -32,6 +32,9 @@ export class ClientesComponent {
     telefono: '',
     empresa: ''
   };
+  constructor() {}
+
+  
 
   clientes: Cliente[] = [
     {
@@ -99,4 +102,6 @@ export class ClientesComponent {
       this.closeModal();
     }
   }
+
+
 }

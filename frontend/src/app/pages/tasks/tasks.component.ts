@@ -24,6 +24,18 @@ export interface TaskItem {
 })
 export class TasksComponent {
   protected query = '';
+  protected showModal = false;
+  protected nextId = 6;
+
+  protected nuevaTarea = {
+    title: '',
+    description: '',
+    dueDate: '',
+    clientCompany: '',
+    clientName: '',
+    type: '',
+    assigned: ''
+  };
 
   protected items: TaskItem[] = [
     { id: 1, title: 'Llamada de seguimiento - Tech Solutions', description: 'Contactar con María González para revisar el progreso de la implementación del CRM', clientName: 'María González', clientCompany: 'Tech Solutions S.A.', type: 'Llamada', priority: 'Alta', status: 'Pendiente', dueDate: '22/11/2024', assigned: 'Carlos Vendedor' },
@@ -40,4 +52,45 @@ export class TasksComponent {
   }
 
   protected clearQuery(){ this.query = ''; }
+  protected openModal() {
+    this.showModal = true;
+  }
+
+  protected closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  protected resetForm() {
+    this.nuevaTarea = {
+      title: '',
+      description: '',
+      dueDate: '',
+      clientCompany: '',
+      clientName: '',
+      type: '',
+      assigned: ''
+    };
+  }
+
+  protected agregarTarea() {
+    if (this.nuevaTarea.title && this.nuevaTarea.dueDate && 
+        this.nuevaTarea.clientCompany && this.nuevaTarea.clientName && 
+        this.nuevaTarea.assigned) {
+      const newTask: TaskItem = {
+        id: this.nextId++,
+        title: this.nuevaTarea.title,
+        description: this.nuevaTarea.description,
+        dueDate: this.nuevaTarea.dueDate,
+        clientCompany: this.nuevaTarea.clientCompany,
+        clientName: this.nuevaTarea.clientName,
+        type: this.nuevaTarea.type,
+        assigned: this.nuevaTarea.assigned,
+        priority: 'Media',
+        status: 'Pendiente'
+      };
+      this.items.push(newTask);
+      this.closeModal();
+    }
+  }
 }
