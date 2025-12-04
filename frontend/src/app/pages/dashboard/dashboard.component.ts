@@ -17,20 +17,6 @@ export class DashboardComponent {
   clientesJson:any;
   tareasJson:any;
 
-  color = 'green';
-
-  getStatusColor(status: string) {
-    if(status === 'Activo') return 'bg-green-100 text-green-700';
-    if(status === 'Pendiente') return 'bg-yellow-100 text-yellow-700';
-    return 'bg-red-100 text-red-700';
-  }
-
-  getPriorityColor(priority: string) {
-    if(priority === 'Alta') return 'text-red-600';
-    if(priority === 'Media') return 'text-yellow-600';
-    return 'text-green-600';
-  }
-
   constructor(private http: HttpClient) {}
 
   ngOnInit() {

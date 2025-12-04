@@ -6,7 +6,6 @@ import { RegisterComponent } from './pages/auth/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { OpportunitiesComponent } from './pages/opportunities/opportunities.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import { ReportsComponent } from './pages/reports/reports.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 
 export const routes: Routes = [
@@ -42,10 +41,6 @@ export const routes: Routes = [
       {
         path: 'tareas',
         component: TasksComponent
-      },
-      {
-        path: 'reportes',
-        component: ReportsComponent
       }
     ]
   },
