@@ -1,5 +1,0 @@
-/* Reports page styles */
-:host{display:block}
-.page-content{padding-left:28px;padding-right:28px}
-.card{border-radius:12px}
-.chart-placeholder{height:220px;border-radius:8px;border:1px dashed #eaeff3;background:linear-gradient(180deg, #ffffff, #fbfbfd);display:flex;align-items:center;justify-content:center;color:rgba(31,41,55,0.45)}

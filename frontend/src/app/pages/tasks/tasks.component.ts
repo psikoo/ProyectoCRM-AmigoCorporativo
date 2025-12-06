@@ -1,26 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface TaskItem {
-  id: number;
-  title: string;
-  description?: string;
-  clientName?: string;
-  clientCompany?: string;
-  type?: string; // e.g. Llamada, Email
-  priority?: 'Alta'|'Media'|'Baja';
-  status?: string; // Pendiente, Completada, En Progreso
-  dueDate?: string;
-  assigned?: string;
-}
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './tasks.component.html',
-  styleUrl: './tasks.component.css'
+  templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
   protected query = '';
@@ -37,21 +24,31 @@ export class TasksComponent {
     assigned: ''
   };
 
-  protected items: TaskItem[] = [
-    { id: 1, title: 'Llamada de seguimiento - Tech Solutions', description: 'Contactar con María González para revisar el progreso de la implementación del CRM', clientName: 'María González', clientCompany: 'Tech Solutions S.A.', type: 'Llamada', priority: 'Alta', status: 'Pendiente', dueDate: '22/11/2024', assigned: 'Carlos Vendedor' },
-    { id: 2, title: 'Enviar propuesta - Innovación Digital', description: 'Enviar versión final de la propuesta con alcance y tarifas', clientName: 'Carlos Rodríguez', clientCompany: 'Innovación Digital', type: 'Email', priority: 'Media', status: 'Pendiente', dueDate: '30/11/2024', assigned: 'Ana Consultora' },
-    { id: 3, title: 'Reunión de cierre - Consultoría Empresarial', description: 'Reunión final para cerrar acuerdo y revisar entregables', clientName: 'Ana Martínez', clientCompany: 'Consultoría Empresarial', type: 'Reunión', priority: 'Alta', status: 'Pendiente', dueDate: '05/12/2024', assigned: 'Luis Desarrollador' },
-    { id: 4, title: 'Revisión de contrato - Desarrollo Web Pro', description: 'Revisar cláusulas del contrato antes de firma', clientName: 'Luis Fernández', clientCompany: 'Desarrollo Web Pro', type: 'Revisión', priority: 'Baja', status: 'Completada', dueDate: '10/10/2024', assigned: 'María Técnica' },
-    { id: 5, title: 'Preparar demo - Cliente X', description: 'Preparar demo funcional para la presentación', clientName: 'Carmen López', clientCompany: 'Retail Solutions', type: 'Demo', priority: 'Media', status: 'Pendiente', dueDate: '15/12/2024', assigned: 'Equipo Demo' }
-  ];
+  task = 0;
+  finalizado = 0;
+  taskJson:any;
 
-  protected get filteredItems(): TaskItem[] {
-    const q = (this.query || '').trim().toLowerCase();
-    if (!q) return this.items;
-    return this.items.filter(t => [t.title, t.description, t.clientName, t.clientCompany, t.assigned, t.type].join(' ').toLowerCase().includes(q));
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "GET"
+    });
+    
+    this.http.get("http://localhost:8080/api/activities", { headers: reqHeaders, credentials: 'include' })
+      .subscribe((data:any) => {
+        this.task = data.length
+        this.taskJson = data
+        for(const item of data) {
+          if(item.deal.stage == "Finalizado") this.finalizado += 1;
+        }
+      });
   }
 
-  protected clearQuery(){ this.query = ''; }
+  protected clearQuery() { this.query = ''; }
   protected openModal() {
     this.showModal = true;
   }
@@ -77,7 +74,7 @@ export class TasksComponent {
     if (this.nuevaTarea.title && this.nuevaTarea.dueDate && 
         this.nuevaTarea.clientCompany && this.nuevaTarea.clientName && 
         this.nuevaTarea.assigned) {
-      const newTask: TaskItem = {
+      const newTask = {
         id: this.nextId++,
         title: this.nuevaTarea.title,
         description: this.nuevaTarea.description,
@@ -89,8 +86,16 @@ export class TasksComponent {
         priority: 'Media',
         status: 'Pendiente'
       };
-      this.items.push(newTask);
       this.closeModal();
     }
+  }
+
+  getCookie(name: string) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+      const [key, value] = cookie.split('=');
+      if (key === name) { return value; }
+    }
+    return "null";
   }
 }

@@ -82,9 +82,9 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between">
                             <p class="text-sm font-medium text-gray-900 truncate">{{ task.name }}</p>
-                            <span [class]="'text-xs font-medium ' + getPriorityColor(task.priority)">{{ task.dueDate }}</span>
+                            <span class="text-xs font-medium">{{ task.dueDate }}</span>
                         </div>
-                        <p class="text-xs text-gray-500 mt-0.5">{{ task.company.name }}</p>
+                        <p class="text-xs text-gray-500 mt-0.5">{{ task.company.name + " - " + task.contact.name }}</p>
                         <p class="text-xs text-gray-400 mt-1 flex items-center">
                             {{ task.description }}
                         </p>

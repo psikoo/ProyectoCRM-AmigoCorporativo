@@ -1,4 +1,4 @@
-<div class="p-6 page-content">
+<div class="space-y-6">
 
   <div class="flex items-start gap-4 mb-6">
     <div class="flex-1">
@@ -11,49 +11,30 @@
   </div>
 
   
-  <div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="grid grid-cols-2 gap-4 mb-6">
     <div class="card p-4 border border-slate-100 shadow-sm flex justify-between items-center">
       <div>
         <div class="text-sm text-slate-500">Tareas Pendientes</div>
-        <div class="text-xl font-bold mt-2">3</div>
+        <div class="text-xl font-bold mt-2">{{ task }}</div>
       </div>
       <div class="text-2xl text-sky-500"></div>
     </div>
-
-    <div class="card p-4 border border-slate-100 shadow-sm flex justify-between items-center">
-      <div>
-        <div class="text-sm text-slate-500">Tareas Vencidas</div>
-        <div class="text-xl font-bold mt-2 text-rose-600">4</div>
-      </div>
-      <div class="text-2xl text-rose-600"></div>
-    </div>
-
     <div class="card p-4 border border-slate-100 shadow-sm flex justify-between items-center">
       <div>
         <div class="text-sm text-slate-500">Tareas Completadas</div>
-        <div class="text-xl font-bold mt-2 text-green-600">1</div>
+        <div class="text-xl font-bold mt-2 text-green-600">{{ finalizado }}</div>
       </div>
       <div class="text-2xl text-green-600"></div>
-    </div>
-  </div>
-
-  <!-- search & filters -->
-  <div class="card p-4 mb-6 border border-slate-100 shadow-sm">
-    <div class="flex gap-4 items-center">
-      <div class="flex-1 relative">
-        <svg class="absolute left-3 top-3 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
-        <input [(ngModel)]="query" placeholder="Buscar tareas por título, cliente, empresa o asignado..." class="w-full pl-10 p-3 rounded-md border border-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-300" />
-        <button *ngIf="query" (click)="clearQuery()" title="Limpiar" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 px-2">✕</button>
-      </div>
-      <button class="px-4 py-2 rounded-md border border-slate-200 text-slate-700">Filtros</button>
     </div>
   </div>
 
   <!-- tasks list -->
   <div class="card p-6">
     <div class="mb-4">
-      <h3 class="text-xl font-semibold">Lista de Tareas ({{ filteredItems.length }})</h3>
-      <div class="text-sm text-slate-500">Gestiona y da seguimiento a todas tus tareas y actividades</div>
+      <h3 class="text-xl font-semibold">Lista de Tareas ({{ task }})</h3>
+      <div class="text-sm text-slate-500">
+        Gestiona y da seguimiento a todas tus tareas y actividades
+      </div>
     </div>
 
     <div class="w-full overflow-x-auto">
@@ -62,48 +43,26 @@
           <tr>
             <th class="py-3">Tarea</th>
             <th class="py-3">Cliente</th>
-            <th class="py-3">Tipo</th>
-            <th class="py-3">Prioridad</th>
             <th class="py-3">Estado</th>
             <th class="py-3">Fecha Límite</th>
             <th class="py-3">Asignado</th>
-            <th class="py-3">Acciones</th>
           </tr>
         </thead>
-        <tbody class="text-sm text-slate-700">
-          <tr *ngFor="let t of filteredItems" class="border-b last:border-b-0 hover:bg-slate-50">
+        <tbody class=" text-slate-700">
+          <tr *ngFor="let task of taskJson" class="border-b last:border-b-0 hover:bg-slate-50">
             <td class="py-4 align-top">
-              <div class="font-semibold">{{ t.title }}</div>
-              <div class="text-xs text-slate-400 mt-1">{{ t.description }}</div>
-              <div class="text-xs text-sky-600 mt-2">Cliente muy interesado, mencionar nuevas funcionalidades</div>
+              <div class="font-semibold">{{ task.name }}</div>
+              <div class="text-xs text-slate-400 mt-1">{{ task.description }}</div>
             </td>
             <td class="py-4 align-top">
-              <div class="font-medium">{{ t.clientName }}</div>
-              <div class="text-xs text-slate-400">{{ t.clientCompany }}</div>
-            </td>
-            <td class="py-4 align-top">{{ t.type }}</td>
-            <td class="py-4 align-top">
-              <span [ngClass]="{'text-rose-600': t.priority==='Alta', 'text-amber-600': t.priority==='Media','text-green-600': t.priority==='Baja'}" class="px-2 py-1 rounded-full text-xs border border-slate-100">{{ t.priority }}</span>
+              <div class="font-medium">{{ task.contact.name }}</div>
+              <div class="text-xs text-slate-400">{{ task.company.name }}</div>
             </td>
             <td class="py-4 align-top">
-              <select class="border-gray-200 rounded-md p-1 text-sm">
-                <option [selected]="t.status==='Pendiente'">Pendiente</option>
-                <option [selected]="t.status==='En Progreso'">En Progreso</option>
-                <option [selected]="t.status==='Completada'">Completada</option>
-              </select>
+              <div class="font-medium">{{ task.deal.stage }}</div>
             </td>
-            <td class="py-4 align-top text-rose-600">{{ t.dueDate }}</td>
-            <td class="py-4 align-top">{{ t.assigned }}</td>
-            <td class="py-4 align-top">
-              <div class="flex gap-2 items-center">
-                <button title="Editar" class="p-2 rounded-md hover:bg-slate-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h6m2 0a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h2"/></svg></button>
-                <button title="Eliminar" class="p-2 rounded-md hover:bg-slate-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-rose-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-.894.553L3 6h14l-2.106-3.447A1 1 0 0014 2H6zm3 8a1 1 0 112 0v5a1 1 0 11-2 0V10z" clip-rule="evenodd" /></svg></button>
-              </div>
-            </td>
-          </tr>
-
-          <tr *ngIf="filteredItems.length === 0">
-            <td colspan="8" class="py-8 text-center text-slate-400">No se encontraron tareas para "{{ query }}".</td>
+            <td class="py-4 align-top text-rose-600">{{ task.dueDate }}</td>
+            <td class="py-4 align-top">{{ task.user.name }}</td>
           </tr>
         </tbody>
       </table>

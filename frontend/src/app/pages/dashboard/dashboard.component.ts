@@ -9,8 +9,7 @@ import { CompanyModalService } from '../../services/company-modal.service';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
   clientes = 0;
@@ -19,20 +18,6 @@ export class DashboardComponent {
   tareas = 0;
   clientesJson:any;
   tareasJson:any;
-
-  color = 'green';
-
-  getStatusColor(status: string) {
-    if(status === 'Activo') return 'bg-green-100 text-green-700';
-    if(status === 'Pendiente') return 'bg-yellow-100 text-yellow-700';
-    return 'bg-red-100 text-red-700';
-  }
-
-  getPriorityColor(priority: string) {
-    if(priority === 'Alta') return 'text-red-600';
-    if(priority === 'Media') return 'text-yellow-600';
-    return 'text-green-600';
-  }
 
   constructor(private http: HttpClient, private companyModalService: CompanyModalService) {}
 
