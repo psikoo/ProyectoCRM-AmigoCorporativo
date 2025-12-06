@@ -10,9 +10,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
+  protected query = '';
+  protected showModal = false;
+  protected nextId = 6;
+
+  protected nuevaTarea = {
+    title: '',
+    description: '',
+    dueDate: '',
+    clientCompany: '',
+    clientName: '',
+    type: '',
+    assigned: ''
+  };
+
   task = 0;
   finalizado = 0;
   taskJson:any;
+
 
   constructor(private http: HttpClient) {}
 
@@ -31,6 +46,48 @@ export class TasksComponent {
           if(item.deal.stage == "Finalizado") this.finalizado += 1;
         }
       });
+  }
+
+  protected clearQuery() { this.query = ''; }
+  protected openModal() {
+    this.showModal = true;
+  }
+
+  protected closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  protected resetForm() {
+    this.nuevaTarea = {
+      title: '',
+      description: '',
+      dueDate: '',
+      clientCompany: '',
+      clientName: '',
+      type: '',
+      assigned: ''
+    };
+  }
+
+  protected agregarTarea() {
+    if (this.nuevaTarea.title && this.nuevaTarea.dueDate && 
+        this.nuevaTarea.clientCompany && this.nuevaTarea.clientName && 
+        this.nuevaTarea.assigned) {
+      const newTask = {
+        id: this.nextId++,
+        title: this.nuevaTarea.title,
+        description: this.nuevaTarea.description,
+        dueDate: this.nuevaTarea.dueDate,
+        clientCompany: this.nuevaTarea.clientCompany,
+        clientName: this.nuevaTarea.clientName,
+        type: this.nuevaTarea.type,
+        assigned: this.nuevaTarea.assigned,
+        priority: 'Media',
+        status: 'Pendiente'
+      };
+      this.closeModal();
+    }
   }
 
   getCookie(name: string) {

@@ -6,11 +6,11 @@
       <div class="text-sm text-slate-500 mt-1">Administra tu pipeline de ventas</div>
     </div>
     <div class="flex gap-3 items-center">
-      <button class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">+ Nueva Oportunidad</button>
+      <button (click)="openModal()" class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">+ Nueva Oportunidad</button>
     </div>
   </div>
 
-  <!-- top cards -->
+ 
   <div class="grid grid-cols-3 gap-4 mb-6">
     <div class="card p-4 flex justify-between items-center border border-slate-100 shadow-sm">
       <div>
@@ -36,8 +36,7 @@
       <div class="text-2xl text-purple-600">▦</div>
     </div>
   </div>
-
-  <!-- pipeline table -->
+ 
   <div class="card p-6">
     <div class="mb-4">
       <h3 class="text-xl font-semibold">Pipeline de Oportunidades </h3>
@@ -81,4 +80,81 @@
     </div>
   </div>
 
+</div>
+
+
+<div *ngIf="showModal">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 max-h-96 overflow-y-auto">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-900">Nueva Oportunidad</h3>
+        <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <form (ngSubmit)="agregarOportunidad()" class="space-y-4">
+       
+        
+
+       
+        
+
+        
+        <div class="grid grid-cols-2 gap-4">
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Compañía</label>
+            <input [(ngModel)]="nuevaOportunidad.clientCompany" name="clientCompany" type="text" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad (€)</label>
+            <input [(ngModel)]="nuevaOportunidad.value" name="value" type="text" placeholder="€0" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Probabilidad (%)</label>
+            <input [(ngModel)]="nuevaOportunidad.probability" name="probability" type="text" placeholder="50%" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+     
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+            <select [(ngModel)]="nuevaOportunidad.stage" name="stage" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <option value="Calificado">Calificado</option>
+              <option value="Propuesta">Propuesta</option>
+              <option value="Negociación">Negociación</option>
+              <option value="Finalizado">Finalizado</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Cierre</label>
+            <input [(ngModel)]="nuevaOportunidad.closeDate" name="closeDate" type="text" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+        </div>
+
+        
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Usuario Asignado</label>
+          <input [(ngModel)]="nuevaOportunidad.assigned" name="assigned" type="text" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div class="flex justify-end gap-3 mt-6">
+          <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

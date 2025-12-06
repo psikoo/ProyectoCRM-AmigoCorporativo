@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { CompanyModalService } from '../../services/company-modal.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
@@ -16,9 +19,27 @@ export class DashboardComponent {
   clientesJson:any;
   tareasJson:any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private companyModalService: CompanyModalService) {}
+
+  private companySub: Subscription | null = null;
+  showCompanyModal = false;
+  nuevaCompania = {
+    nombre: '',
+    industria: '',
+    sitioWeb: '',
+    telefono: '',
+    direccion: '',
+    usuario: ''
+  };
+
+  openCompanyModal() {
+    this.companyModalService.open();
+  }
 
   ngOnInit() {
+    this.companySub = this.companyModalService.open$.subscribe(v => {
+      this.showCompanyModal = !!v;
+    });
     const reqHeaders = new HttpHeaders({
       'Authorization': this.getCookie("token"),
       "Content-Type": "application/json",
@@ -44,6 +65,43 @@ export class DashboardComponent {
         this.tareas = data.length
         this.tareasJson = data
       });
+  }
+
+  ngOnDestroy() {
+    this.companySub?.unsubscribe();
+  }
+
+  closeCompanyModal() {
+    this.showCompanyModal = false;
+    this.resetCompanyForm();
+  }
+
+  resetCompanyForm() {
+    this.nuevaCompania = {
+      nombre: '',
+      industria: '',
+      sitioWeb: '',
+      telefono: '',
+      direccion: '',
+      usuario: ''
+    };
+  }
+
+  agregarCompania() {
+    if (this.nuevaCompania.nombre && this.nuevaCompania.telefono && this.nuevaCompania.usuario) {
+      const reqHeaders = new HttpHeaders({
+        'Authorization': this.getCookie("token"),
+        "Content-Type": "application/json"
+      });
+      this.http.post("http://localhost:8080/api/companies", this.nuevaCompania, { headers: reqHeaders })
+        .subscribe(() => {
+          this.empresas = (this.empresas || 0) + 1;
+          this.closeCompanyModal();
+        }, (err) => {
+          console.error('Error creando compañía', err);
+          this.closeCompanyModal();
+        });
+    }
   }
 
   getCookie(name: string) {

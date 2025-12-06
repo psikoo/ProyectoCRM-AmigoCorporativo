@@ -4,10 +4,9 @@
       <h2 class="text-2xl font-bold text-gray-900">Gestión de Clientes</h2>
       <p class="text-sm text-gray-500 mt-1">Administra tu cartera de clientes</p>
     </div>
-    <button (click)="openModal()" class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">
-            
-           +  Nuevo cliente
-        </button>
+    <div class="flex gap-2">
+      <button (click)="openModal()" class="bg-gradient-to-b from-sky-700 to-sky-500 text-white px-4 py-2 rounded-lg font-semibold shadow">+ Nuevo cliente</button>
+    </div>
   </div>
 
   <div class="bg-white rounded-xl border border-gray-100 shadow-sm mt-6">
@@ -26,8 +25,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for (cliente of clientesJson; track cliente.nombre) {
-            <tr>
+          <tr *ngFor="let cliente of clientesJson">
               <td class="px-6 py-4 whitespace-nowrap flex items-center space-x-2">
                 <div class="h-10 w-10 rounded-full flex items-center justify-center font-medium bg-blue-200">{{ cliente.name.charAt(0).toUpperCase() }}</div>
                 <div>
@@ -50,7 +48,6 @@
                 {{ cliente.company.user.name }}
               </td>
             </tr>
-          }
         </tbody>
       </table>
     </div>
@@ -58,7 +55,7 @@
 </div>
 
 
-@if (showModal) {
+<div *ngIf="showModal">
   <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
       <div class="flex justify-between items-center mb-4">
@@ -102,4 +99,6 @@
       </form>
     </div>
   </div>
-}
+</div>
+
+
