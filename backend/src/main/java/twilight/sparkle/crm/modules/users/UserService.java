@@ -28,7 +28,7 @@ public class UserService {
     userRepository.deleteById(id);
   }
 
-  public User findByName(String name) {
-    return userRepository.findByName(name).orElse(null);
+  public User findFirstByName(String name) {
+    return userRepository.findFirstByName(name).orElse(null);
   }
 }

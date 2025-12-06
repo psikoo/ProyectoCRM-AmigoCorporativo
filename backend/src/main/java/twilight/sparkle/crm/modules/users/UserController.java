@@ -19,7 +19,7 @@ public class UserController {
   }
   @GetMapping("/{name}")
   public User getByName(@PathVariable String name) {
-    return userService.findByName(name);
+    return userService.findFirstByName(name);
   }
 
   @DeleteMapping("/{id}")

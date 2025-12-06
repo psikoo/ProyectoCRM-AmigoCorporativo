@@ -42,8 +42,8 @@ public class DealController {
     String closeDate = postRequest.get("closeDate");
     String user = postRequest.get("user");
     String company = postRequest.get("company");
-    User userE = userService.findByName(user);
-    Company companyE = companyService.findByName(company);
+    User userE = userService.findFirstByName(user);
+    Company companyE = companyService.findFirstByName(company);
     if(userE == null) throw new RuntimeException(company+" > User does not exit!\n"+postRequest);
     if(companyE == null) throw new RuntimeException(company+" > Company does not exit!\n"+postRequest);
     if(id == null) return dealService.save(new Deal(stage, amount, chance, closeDate, userE, companyE));

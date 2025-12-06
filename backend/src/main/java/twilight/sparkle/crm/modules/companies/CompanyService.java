@@ -30,7 +30,7 @@ public class CompanyService {
   public Company findById(Long id) {
     return companyRepository.findById(id).orElse(null);
   }
-  public Company findByName(String name) {
-    return companyRepository.findByName(name).orElse(null);
+  public Company findFirstByName(String name) {
+    return companyRepository.findFirstByName(name).orElse(null);
   }
 }

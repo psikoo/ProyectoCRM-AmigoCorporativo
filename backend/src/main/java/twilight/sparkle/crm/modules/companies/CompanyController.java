@@ -38,7 +38,7 @@ public class CompanyController {
     String phone = postRequest.get("phone");
     String address = postRequest.get("address");
     String user = postRequest.get("user");
-    User userE = userService.findByName(user);
+    User userE = userService.findFirstByName(user);
     
     if(userE == null) throw new RuntimeException(user+" > User does not exit!\n"+postRequest);
     if(id == null) return companyService.save(new Company(name, industry, website, phone, address, userE));

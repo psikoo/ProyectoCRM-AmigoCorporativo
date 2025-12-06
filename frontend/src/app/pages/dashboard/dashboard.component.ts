@@ -2,8 +2,6 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { CompanyModalService } from '../../services/company-modal.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,27 +17,9 @@ export class DashboardComponent {
   clientesJson:any;
   tareasJson:any;
 
-  constructor(private http: HttpClient, private companyModalService: CompanyModalService) {}
-
-  private companySub: Subscription | null = null;
-  showCompanyModal = false;
-  nuevaCompania = {
-    nombre: '',
-    industria: '',
-    sitioWeb: '',
-    telefono: '',
-    direccion: '',
-    usuario: ''
-  };
-
-  openCompanyModal() {
-    this.companyModalService.open();
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.companySub = this.companyModalService.open$.subscribe(v => {
-      this.showCompanyModal = !!v;
-    });
     const reqHeaders = new HttpHeaders({
       'Authorization': this.getCookie("token"),
       "Content-Type": "application/json",
@@ -67,17 +47,37 @@ export class DashboardComponent {
       });
   }
 
-  ngOnDestroy() {
-    this.companySub?.unsubscribe();
+  getCookie(name: string) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+      const [key, value] = cookie.split('=');
+      if (key === name) { return value; }
+    }
+    return "null";
   }
 
-  closeCompanyModal() {
-    this.showCompanyModal = false;
-    this.resetCompanyForm();
+  showModal = false;
+  nuevo = {
+    nombre: '',
+    industria: '',
+    sitioWeb: '',
+    telefono: '',
+    direccion: '',
+    usuario: ''
+  };
+
+  openModal() {
+    this.showModal = true;
   }
 
-  resetCompanyForm() {
-    this.nuevaCompania = {
+
+  closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.nuevo = {
       nombre: '',
       industria: '',
       sitioWeb: '',
@@ -87,29 +87,28 @@ export class DashboardComponent {
     };
   }
 
-  agregarCompania() {
-    if (this.nuevaCompania.nombre && this.nuevaCompania.telefono && this.nuevaCompania.usuario) {
-      const reqHeaders = new HttpHeaders({
-        'Authorization': this.getCookie("token"),
-        "Content-Type": "application/json"
-      });
-      this.http.post("http://localhost:8080/api/companies", this.nuevaCompania, { headers: reqHeaders })
-        .subscribe(() => {
-          this.empresas = (this.empresas || 0) + 1;
-          this.closeCompanyModal();
-        }, (err) => {
-          console.error('Error creando compañía', err);
-          this.closeCompanyModal();
-        });
-    }
+  agregar() {
+    this.post();
   }
 
-  getCookie(name: string) {
-    const cookies = document.cookie.split('; ');
-    for (let cookie of cookies) {
-      const [key, value] = cookie.split('=');
-      if (key === name) { return value; }
-    }
-    return "null";
+  post() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "POST"
+    });
+    let reqBody  = {
+      "name": this.nuevo.nombre,
+      "industry": this.nuevo.industria,
+      "website": this.nuevo.sitioWeb,
+      "phone": this.nuevo.telefono,
+      "address": this.nuevo.direccion,
+      "user": this.nuevo.usuario
+    };
+    this.http.post("http://localhost:8080/api/companies", reqBody, { headers: reqHeaders })
+      .subscribe((data:any) => {
+        this.closeModal();
+        location.reload();
+      });
   }
 }

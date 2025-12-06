@@ -28,6 +28,6 @@ public class RoleService {
     return rolesRepository.findById(id).orElse(null);
   }
   public Role findByRoleName(String roleName) {
-    return rolesRepository.findByName(roleName).orElse(null);
+    return rolesRepository.findFirstByName(roleName).orElse(null);
   }
 }

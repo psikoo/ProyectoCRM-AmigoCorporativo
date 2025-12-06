@@ -30,7 +30,7 @@ public class ContactService {
   public Contact findById(Long id) {
     return contactRepository.findById(id).orElse(null);
   }
-  public Contact findByName(String name) {
-    return contactRepository.findByName(name).orElse(null);
+  public Contact findFirstByName(String name) {
+    return contactRepository.findFirstByName(name).orElse(null);
   }
 }

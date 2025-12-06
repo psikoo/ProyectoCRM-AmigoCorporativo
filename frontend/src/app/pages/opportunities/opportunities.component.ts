@@ -10,23 +10,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: './opportunities.component.html'
 })
 export class OpportunitiesComponent {
-  protected query = '';
-  protected hasData = true; // show example items for the UI preview
-  protected showModal = false;
-  protected nextId = 4;
-
-  protected nuevaOportunidad = {
-    title: '',
-    description: '',
-    clientName: '',
-    clientCompany: '',
-    value: '',
-    stage: 'Calificado',
-    probability: '50%',
-    closeDate: '',
-    assigned: ''
-  };
-
   ventas = 0;
   valor = 0;
   valorTotal = 0;
@@ -61,46 +44,59 @@ export class OpportunitiesComponent {
     return "null";
   }
 
-  protected openModal() {
+  showModal = false;
+  nuevo = {
+    "stage": '',
+    "amount": '',
+    "chance": '',
+    "closeDate": '',
+    "user": '', 
+    "company": ''
+  };
+
+  openModal() {
     this.showModal = true;
   }
 
-  protected closeModal() {
+
+  closeModal() {
     this.showModal = false;
     this.resetForm();
   }
 
-  protected resetForm() {
-    this.nuevaOportunidad = {
-      title: '',
-      description: '',
-      clientName: '',
-      clientCompany: '',
-      value: '',
-      stage: 'Calificado',
-      probability: '50%',
-      closeDate: '',
-      assigned: ''
+  resetForm() {
+    this.nuevo = {
+      "stage": '',
+      "amount": '',
+      "chance": '',
+      "closeDate": '',
+      "user": '', 
+      "company": ''
     };
   }
 
-  protected agregarOportunidad() {
-    if (this.nuevaOportunidad.title && this.nuevaOportunidad.clientName && 
-        this.nuevaOportunidad.clientCompany && this.nuevaOportunidad.value && 
-        this.nuevaOportunidad.closeDate && this.nuevaOportunidad.assigned) {
-      const newOpp = {
-        id: this.nextId++,
-        title: this.nuevaOportunidad.title,
-        description: this.nuevaOportunidad.description,
-        clientName: this.nuevaOportunidad.clientName,
-        clientCompany: this.nuevaOportunidad.clientCompany,
-        value: this.nuevaOportunidad.value,
-        stage: this.nuevaOportunidad.stage,
-        probability: this.nuevaOportunidad.probability,
-        closeDate: this.nuevaOportunidad.closeDate,
-        assigned: this.nuevaOportunidad.assigned
-      };
-      this.closeModal();
-    }
+  agregar() {
+    this.post();
+  }
+
+  post() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "POST"
+    });
+    let reqBody  = {
+      "stage": this.nuevo.stage,
+      "amount": this.nuevo.amount,
+      "chance": this.nuevo.chance,
+      "closeDate": this.nuevo.closeDate,
+      "user": this.nuevo.user,
+      "company": this.nuevo.company
+    };
+    this.http.post("http://localhost:8080/api/deals", reqBody, { headers: reqHeaders })
+      .subscribe((data:any) => {
+        this.closeModal();
+        location.reload();
+      });
   }
 }

@@ -24,15 +24,6 @@ interface Cliente {
   imports: [CommonModule, FormsModule]
 })
 export class ClientesComponent {
-  showModal = false;
-  nuevoCliente = {
-    nombre: '',
-    apellido: '',
-    email: '',
-    telefono: '',
-    empresa: ''
-  };
-
   clientes = 0;
   clientesJson:any;
 
@@ -62,9 +53,20 @@ export class ClientesComponent {
     return "null";
   }
 
+  showModal = false;
+  nuevo = {
+    nombre: '',
+    apellido: '',
+    email: '',
+    telefono: '',
+    posicion: '',
+    empresa: ''
+  };
+
   openModal() {
     this.showModal = true;
   }
+
 
   closeModal() {
     this.showModal = false;
@@ -72,32 +74,37 @@ export class ClientesComponent {
   }
 
   resetForm() {
-    this.nuevoCliente = {
+    this.nuevo = {
       nombre: '',
       apellido: '',
       email: '',
       telefono: '',
+      posicion: '',
       empresa: ''
     };
   }
 
-  agregarCliente() {
-    if (this.nuevoCliente.nombre && this.nuevoCliente.apellido && this.nuevoCliente.email && this.nuevoCliente.telefono && this.nuevoCliente.empresa) {
-      const initial = this.nuevoCliente.nombre.charAt(0).toUpperCase();
-      const nuevoClienteObj: Cliente = {
-        initial,
-        nombre: `${this.nuevoCliente.nombre} ${this.nuevoCliente.apellido}`,
-        empresa: this.nuevoCliente.empresa,
-        email: this.nuevoCliente.email,
-        telefono: this.nuevoCliente.telefono,
-        direccion: '',
-        industria: 'Por definir',
-        facturacion: '$0',
-        estado: 'Pendiente',
-        ultimoContacto: new Date().toLocaleDateString('es-ES'),
-        color: 'bg-blue-600'
-      };
-      this.closeModal();
-    }
+  agregar() {
+    this.post();
+  }
+
+  post() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "POST"
+    });
+    let reqBody  = {
+      "name": this.nuevo.nombre,
+      "email": this.nuevo.email,
+      "phone": this.nuevo.telefono,
+      "position": this.nuevo.posicion,
+      "company": this.nuevo.empresa,
+    };
+    this.http.post("http://localhost:8080/api/contacts", reqBody, { headers: reqHeaders })
+      .subscribe((data:any) => {
+        this.closeModal();
+        location.reload();
+      });
   }
 }

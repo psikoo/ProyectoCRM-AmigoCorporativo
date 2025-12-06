@@ -37,7 +37,7 @@ public class ContactController {
     String phone = postRequest.get("phone");
     String position = postRequest.get("position");
     String company = postRequest.get("company");
-    Company companyE = companyService.findByName(company);
+    Company companyE = companyService.findFirstByName(company);
     if(companyE == null) throw new RuntimeException(company+" > Company does not exit!\n"+postRequest);
     if(id == null) return contactService.save(new Contact(name, email, phone, position, companyE));
     return contactService.save(

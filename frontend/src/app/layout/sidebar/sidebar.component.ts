@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -15,7 +15,7 @@ export class SidebarComponent {
   initial = 'L';
   currentDate: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     const reqHeaders = new HttpHeaders({
@@ -39,5 +39,20 @@ export class SidebarComponent {
       if (key === name) { return value; }
     }
     return "null";
+  }
+
+  logout() {
+    this.deleteAllCookies();
+    this.router.navigate(['/login']);
+  }
+
+  deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    }
   }
 }

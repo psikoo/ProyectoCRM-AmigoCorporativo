@@ -10,20 +10,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
-  protected query = '';
-  protected showModal = false;
-  protected nextId = 6;
-
-  protected nuevaTarea = {
-    title: '',
-    description: '',
-    dueDate: '',
-    clientCompany: '',
-    clientName: '',
-    type: '',
-    assigned: ''
-  };
-
   task = 0;
   finalizado = 0;
   taskJson:any;
@@ -48,48 +34,6 @@ export class TasksComponent {
       });
   }
 
-  protected clearQuery() { this.query = ''; }
-  protected openModal() {
-    this.showModal = true;
-  }
-
-  protected closeModal() {
-    this.showModal = false;
-    this.resetForm();
-  }
-
-  protected resetForm() {
-    this.nuevaTarea = {
-      title: '',
-      description: '',
-      dueDate: '',
-      clientCompany: '',
-      clientName: '',
-      type: '',
-      assigned: ''
-    };
-  }
-
-  protected agregarTarea() {
-    if (this.nuevaTarea.title && this.nuevaTarea.dueDate && 
-        this.nuevaTarea.clientCompany && this.nuevaTarea.clientName && 
-        this.nuevaTarea.assigned) {
-      const newTask = {
-        id: this.nextId++,
-        title: this.nuevaTarea.title,
-        description: this.nuevaTarea.description,
-        dueDate: this.nuevaTarea.dueDate,
-        clientCompany: this.nuevaTarea.clientCompany,
-        clientName: this.nuevaTarea.clientName,
-        type: this.nuevaTarea.type,
-        assigned: this.nuevaTarea.assigned,
-        priority: 'Media',
-        status: 'Pendiente'
-      };
-      this.closeModal();
-    }
-  }
-
   getCookie(name: string) {
     const cookies = document.cookie.split('; ');
     for (let cookie of cookies) {
@@ -97,5 +41,64 @@ export class TasksComponent {
       if (key === name) { return value; }
     }
     return "null";
+  }
+
+  showModal = false;
+  nuevo = {
+    "name": "",
+    "description": "",
+    "dueDate": "",
+    "company": "",
+    "contact": "", 
+    "deal": "",
+    "user": ""
+  };
+
+  openModal() {
+    this.showModal = true;
+  }
+
+
+  closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.nuevo = {
+      "name": "",
+      "description": "",
+      "dueDate": "",
+      "company": "",
+      "contact": "", 
+      "deal": "",
+      "user": ""
+    };
+  }
+
+  agregar() {
+    this.post();
+  }
+
+  post() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "POST"
+    });
+    let reqBody  = {
+      "name": this.nuevo.name,
+      "description": this.nuevo.description,
+      "dueDate": this.nuevo.dueDate,
+      "company": this.nuevo.company,
+      "contact": this.nuevo.contact,
+      "deal": this.nuevo.deal,
+      "user": this.nuevo.user
+    };
+    this.http.post("http://localhost:8080/api/activities", reqBody, { headers: reqHeaders })
+      .subscribe((data:any) => {
+        this.closeModal();
+        location.reload();
+      });
   }
 }

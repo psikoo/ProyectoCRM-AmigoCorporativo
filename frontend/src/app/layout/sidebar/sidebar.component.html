@@ -37,7 +37,7 @@
       
   </nav>
 
-  <div class="border-t border-gray-200 p-4 bg-gray-50">
+  <div class="border-t border-gray-200 p-4 bg-gray-50 flex justify-between">
     <div class="flex items-center">
       <div class="h-9 w-9 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold text-sm">
         {{ initial }}
@@ -47,5 +47,11 @@
         <p class="text-sm font-medium text-gray-900">{{ role }}</p>
       </div>
     </div>
+    <button (click)="logout()" class="text-gray-400 hover:text-red-600 flex items-center">
+      <p>Logout</p>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
   </div>
 </div>

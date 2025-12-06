@@ -51,10 +51,10 @@ public class ActivityController {
     String contact = postRequest.get("contact");
     String deal = postRequest.get("deal");
     String user = postRequest.get("user");
-    Company companyE = companyService.findByName(company);
-    Contact contactE = contactService.findByName(contact);
+    Company companyE = companyService.findFirstByName(company);
+    Contact contactE = contactService.findFirstByName(contact);
     Deal dealE = dealService.findById(Long.parseLong(deal));
-    User userE = userService.findByName(user);
+    User userE = userService.findFirstByName(user);
     if(companyE == null) throw new RuntimeException(company+" > Company does not exit!\n"+postRequest);
     if(contactE == null) throw new RuntimeException(company+" > Contact does not exit!\n"+postRequest);
     if(dealE == null) throw new RuntimeException(company+" > Deal does not exit!\n"+postRequest);

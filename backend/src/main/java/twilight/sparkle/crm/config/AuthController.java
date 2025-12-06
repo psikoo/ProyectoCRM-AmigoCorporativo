@@ -29,7 +29,7 @@ public class AuthController {
   public Map<String, String> login(@RequestBody Map<String, String> loginRequest) {
     String name = loginRequest.get("name");
     String password = loginRequest.get("password");
-    User user = userService.findByName(name);
+    User user = userService.findFirstByName(name);
     if(user != null && passwordEncoder.matches(password, user.getPassword())) {
       String token = jwtService.generateToken(name);
       return Map.of("token", token);
@@ -45,7 +45,7 @@ public class AuthController {
     String email = registerRequest.get("email");
     String role = registerRequest.get("role");
 
-    User userE = userService.findByName(name);
+    User userE = userService.findFirstByName(name);
     Role roleE = roleService.findByRoleName(role);
     if(userE != null && passwordEncoder.matches(password, userE.getPassword())) {
       String token = jwtService.generateToken(name);
