@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class TasksComponent {
   task = 0;
+  finalizado = 0;
   taskJson:any;
 
   constructor(private http: HttpClient) {}
@@ -26,6 +27,9 @@ export class TasksComponent {
       .subscribe((data:any) => {
         this.task = data.length
         this.taskJson = data
+        for(const item of data) {
+          if(item.deal.stage == "Finalizado") this.finalizado += 1;
+        }
       });
   }
 
