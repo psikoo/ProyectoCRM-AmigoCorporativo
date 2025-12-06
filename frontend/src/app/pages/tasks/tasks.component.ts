@@ -1,19 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-export interface TaskItem {
-  id: number;
-  title: string;
-  description?: string;
-  clientName?: string;
-  clientCompany?: string;
-  type?: string; // e.g. Llamada, Email
-  priority?: 'Alta'|'Media'|'Baja';
-  status?: string; // Pendiente, Completada, En Progreso
-  dueDate?: string;
-  assigned?: string;
-}
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-tasks',
@@ -22,21 +10,31 @@ export interface TaskItem {
   templateUrl: './tasks.component.html'
 })
 export class TasksComponent {
-  protected query = '';
+  task = 0;
+  taskJson:any;
 
-  protected items: TaskItem[] = [
-    { id: 1, title: 'Llamada de seguimiento - Tech Solutions', description: 'Contactar con María González para revisar el progreso de la implementación del CRM', clientName: 'María González', clientCompany: 'Tech Solutions S.A.', type: 'Llamada', priority: 'Alta', status: 'Pendiente', dueDate: '22/11/2024', assigned: 'Carlos Vendedor' },
-    { id: 2, title: 'Enviar propuesta - Innovación Digital', description: 'Enviar versión final de la propuesta con alcance y tarifas', clientName: 'Carlos Rodríguez', clientCompany: 'Innovación Digital', type: 'Email', priority: 'Media', status: 'Pendiente', dueDate: '30/11/2024', assigned: 'Ana Consultora' },
-    { id: 3, title: 'Reunión de cierre - Consultoría Empresarial', description: 'Reunión final para cerrar acuerdo y revisar entregables', clientName: 'Ana Martínez', clientCompany: 'Consultoría Empresarial', type: 'Reunión', priority: 'Alta', status: 'Pendiente', dueDate: '05/12/2024', assigned: 'Luis Desarrollador' },
-    { id: 4, title: 'Revisión de contrato - Desarrollo Web Pro', description: 'Revisar cláusulas del contrato antes de firma', clientName: 'Luis Fernández', clientCompany: 'Desarrollo Web Pro', type: 'Revisión', priority: 'Baja', status: 'Completada', dueDate: '10/10/2024', assigned: 'María Técnica' },
-    { id: 5, title: 'Preparar demo - Cliente X', description: 'Preparar demo funcional para la presentación', clientName: 'Carmen López', clientCompany: 'Retail Solutions', type: 'Demo', priority: 'Media', status: 'Pendiente', dueDate: '15/12/2024', assigned: 'Equipo Demo' }
-  ];
+  constructor(private http: HttpClient) {}
 
-  protected get filteredItems(): TaskItem[] {
-    const q = (this.query || '').trim().toLowerCase();
-    if (!q) return this.items;
-    return this.items.filter(t => [t.title, t.description, t.clientName, t.clientCompany, t.assigned, t.type].join(' ').toLowerCase().includes(q));
+  ngOnInit() {
+    const reqHeaders = new HttpHeaders({
+      'Authorization': this.getCookie("token"),
+      "Content-Type": "application/json",
+      "Access-Control-Request-Method": "GET"
+    });
+    
+    this.http.get("http://localhost:8080/api/activities", { headers: reqHeaders, credentials: 'include' })
+      .subscribe((data:any) => {
+        this.task = data.length
+        this.taskJson = data
+      });
   }
 
-  protected clearQuery(){ this.query = ''; }
+  getCookie(name: string) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+      const [key, value] = cookie.split('=');
+      if (key === name) { return value; }
+    }
+    return "null";
+  }
 }
