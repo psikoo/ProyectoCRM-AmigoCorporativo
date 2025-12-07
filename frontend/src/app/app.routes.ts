@@ -27,7 +27,7 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       {
-        path: '', // Cuando la ruta está vacía bajo /app, carga el Dashboard
+        path: '',
         component: DashboardComponent
       },
       {
